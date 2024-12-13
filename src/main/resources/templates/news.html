@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новини</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6d8c5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+            background-color: #888888;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .news-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-item {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-item h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .category-display p {
+            font-size: 1em;
+            margin: 5px 0;
+        }
+
+        .category {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .important {
+            color: red;
+            font-weight: bold;
+        }
+
+        .category-display p[style*="color: red"] {
+            color: red;
+            font-weight: bold;
+        }
+
+        .news-item .author {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .news-item p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Список новин</h1>
+<div class="search-bar">
+    <form th:action="@{/news}" method="get">
+        <input type="text" id="title" name="title" placeholder="Шукайте новини..." />
+        <button type="submit">Шукати</button>
+    </form>
+</div>
+
+<div class="news-container">
+    <div class="news-item" th:each="news : ${news}">
+        <h2 th:text="${news.title ?: 'Новина без заголовка'}">Заголовок новини</h2>
+
+        <div class="category-display" th:switch="${news.category}">
+            <p th:case="'Важлива'" style="color: red; font-weight: bold;">
+                Це важлива новина!
+            </p>
+            <p th:case="'Спорт'">
+                Спортивна новина. Оновлення подій у світі спорту.
+            </p>
+            <p th:case="'Політика'">
+                Політична новина. Будьте в курсі останніх політичних подій.
+            </p>
+            <p th:case="*">
+                Інша категорія: <span th:text="${news.category}">Категорія</span>
+            </p>
+        </div>
+
+        <p class="author" th:if="${news.author != null}" th:text="'Автор: ' + ${news.author}">Автор</p>
+        <p class="author" th:unless="${news.author != null}">Автор не вказаний</p>
+
+        <p th:text="${news.description}">Опис новини</p>
+    </div>
+</div>
+</body>
+</html>
