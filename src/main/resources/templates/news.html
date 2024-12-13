@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новини</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6d8c5; /* Світло-сірий фон */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff; /* Білий текст */
+            background-color: #888888; /* Сірий фон для заголовка */
+            text-align: center; /* Центрування тексту */
+            padding: 10px 0; /* Внутрішній відступ */
+            border-radius: 8px; /* Заокруглені кути */
+            margin-bottom: 20px; /* Відступ під заголовком */
+        }
+
+        .news-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .news-item {
+            background-color: #ffffff; /* Білий фон для кожного елемента */
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-item h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .news-item .category {
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .news-item .author {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .news-item p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Список новин</h1>
+<div class="search-bar">
+    <form th:action="@{/news}" method="get">
+        <input type="text" id="title" name="title" placeholder="Шукайте новини..." />
+        <button type="submit">Шукати</button>
+    </form>
+</div>
+
+<div class="news-container">
+    <!-- Цикл для виведення новин -->
+    <div class="news-item" th:each="news : ${news}">
+        <h2 th:text="${news.title}">Заголовок новини</h2>
+        <p class="category" th:text="${news.category}">Категорія</p>
+        <p class="author" th:text="'Автор: ' + ${news.author}">Автор</p>
+        <p th:text="${news.description}">Опис новини</p>
+    </div>
+</div>
+</body>
+</html>
